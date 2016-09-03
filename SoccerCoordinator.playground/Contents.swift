@@ -31,33 +31,104 @@ var raptors: [Dictionary<String, String>] = []
 
 //[Dictionary<String, String>] is to state what variable is is, a dictionary, and the <String, String> is to state what dictionary it is (two strings)
 
-for player in players {
-    var countDragons: Int = 0 // used to count how many experience players there is
-    var countSharks: Int
-    var countRaptors: Int
-    var totalDragonsHeight: Int
-    var totalSharksHeight: Int
-    var totalRaptorsHeight: Int
-   
-    if (dragons.count <= sharks.count && dragons.count <= raptors.count) { // checks to see which array to add values to (whichever has the least players in)
-        for pos in dragons {
-            
-        }
-    } else if (sharks.count <= dragons.count && sharks.count <= raptors.count) {
-        for pos in sharks {
-            
-        }
-    } else {
-        for pos in raptors {
-            
-        }
+var countYes = 0 // Being used to count how many experienced players there is from all the players
+
+for player in players { // To loop through all the players, to do the above comment
+    if player["Exp"] == "YES" {
+        countYes += 1
     }
 }
 
+let expPlayerPerTeam = countYes/3 // 3 is the amount of teams
+let nonExpPlayerPerTeam = (players.count - countYes) / 3
 
+// Converting String to Int has not been taught, But I will be needing to use it to compare the players heights to get all teams average height within 1,5 Inches. Where as var: Double = Double(String).
+/*
+func getAllTeamsHeight() -> (dragonsHeight: Double, sharksHeight: Double, raptorsHeight: Double) {
+    var dragonsHeight = 0.0
+    var sharksHeight = 0.0
+    var raptorsHeight = 0.0
+    var count = 0
+    while count < dragons.count {
+        let result = dragons[count]
+        dragonsHeight += Double(result["height"]!)!
+        count += 1
+    }
+    count = 0
+    while count < sharks.count {
+        let result = sharks[count]
+        sharksHeight += Double(result["height"]!)!
+        count += 1
+    }
+    count = 0
+    while count < raptors.count {
+        let result = raptors[count]
+        raptorsHeight += Double(result["height"]!)!
+        count += 1
+    }
+    return (dragonsHeight, sharksHeight, raptorsHeight)
+}
+// This function was to get all the total heights from each team
+*/
 
+for player in players { // This for loop is to add all players to the teams
+    if player["Exp"] == "YES" && dragons.count <= sharks.count && dragons.count <= raptors.count {
+        dragons.append(player)
+    } else if player["Exp"] == "YES" && sharks.count <= dragons.count && sharks.count <= raptors.count {
+        sharks.append(player)
+    } else if player["Exp"] == "YES" && raptors.count <= dragons.count && raptors.count <= sharks.count {
+        raptors.append(player)
+    }
+    
+    if player["Exp"] == "NO" && dragons.count <= sharks.count && dragons.count <= raptors.count {
+        dragons.append(player)
+    } else if player["Exp"] == "NO" && sharks.count <= dragons.count && sharks.count <= raptors.count {
+        sharks.append(player)
+    } else if player["Exp"] == "NO" && raptors.count <= dragons.count && raptors.count <= sharks.count {
+        raptors.append(player)
+    }
+}
 
+// Variables to be made to see height differences
+/*
 
+var dragonsVsSharks = ( getAllTeamsHeight().dragonsHeight / Double(dragons.count) ) - ( getAllTeamsHeight().sharksHeight / Double(sharks.count) )
+if dragonsVsSharks < 0 { // the if statements are all to get any number in the negative, into the positive
+    dragonsVsSharks = dragonsVsSharks * -1
+}
+var sharksVsRaptos = ( getAllTeamsHeight().sharksHeight / Double(sharks.count) ) - ( getAllTeamsHeight().raptorsHeight / Double(raptors.count) )
+if sharksVsRaptos < 0 {
+    sharksVsRaptos = sharksVsRaptos * -1
+}
+var dragonsVsRaptors = ( getAllTeamsHeight().dragonsHeight / Double(dragons.count) ) - ( getAllTeamsHeight().raptorsHeight / Double(raptors.count) )
+if dragonsVsRaptors < 0 {
+    dragonsVsRaptors = dragonsVsRaptors * -1
+}
+ */
+
+// The following is to inform the parents, printing out each message. times are as follows:
+let dragonsTime: String = "March 17th, 1pm"
+let sharksTime: String = "Marcch 17th 3pm"
+let raptorsTime: String = "March 18th 1pm"
+let league: [Array<Dictionary<String,String>>] = [dragons, sharks, raptors] // array of the entire league
+
+func sendMessage(GuardianName gname: String, PlayerName: String, Time: String, TeamName: String) -> String {
+    let message = "Dear \(gname), \(PlayerName)'s team that he will be playing in is the \(TeamName), he will be needing to attend practice on the \(Time). Please make sure he's there on time."
+    return message
+}
+
+for player in dragons {
+    let message = sendMessage(GuardianName: player["guardianName"]!, PlayerName: player["name"]!, Time: dragonsTime, TeamName: "Dragons")
+    print(message)
+}
+for player in sharks {
+    let message = sendMessage(GuardianName: player["guardianName"]!, PlayerName: player["name"]!, Time: sharksTime, TeamName: "Sharks")
+    print(message)
+}
+for player in raptors {
+    let message = sendMessage(GuardianName: player["guardianName"]!, PlayerName: player["name"]!, Time: raptorsTime, TeamName: "Raptors")
+    print(message)
+}
 
 
 
