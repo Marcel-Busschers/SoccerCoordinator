@@ -115,8 +115,9 @@ let league: [Array<Dictionary<String,String>>] = [dragons, sharks, raptors] // a
 func sendMessage(GuardianName gname: String, PlayerName: String, Time: String, TeamName: String) -> String {
     let message = "Dear \(gname), \(PlayerName)'s team that he will be playing in is the \(TeamName), he will be needing to attend practice on the \(Time). Please make sure he's there on time."
     return message
-}
+} // Function so that I dont have to repeat the typing of the message
 
+// For in loops to go through each team to print the message out.
 for player in dragons {
     let message = sendMessage(GuardianName: player["guardianName"]!, PlayerName: player["name"]!, Time: dragonsTime, TeamName: "Dragons")
     print(message)
